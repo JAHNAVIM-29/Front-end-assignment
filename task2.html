@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Pricing Cards</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    padding: 30px 15px;
+    text-align: center;
+}
+
+/* Main Container */
+.component-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+/* Billing Toggle */
+.billing-toggle {
+    display: inline-flex;
+    align-items: center;
+    background: white;
+    padding: 6px;
+    border-radius: 30px;
+    gap: 5px;
+    margin-bottom: 30px;
+}
+
+.billing-toggle button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.billing-toggle button.active {
+    background: #2563eb;
+    color: white;
+}
+
+/* Mobile First Grid */
+.pricing-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    text-align: left;
+}
+
+/* Pricing Card */
+.pricing-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.pricing-card h2 {
+    font-size: 23px;
+    margin-bottom: 12px;
+}
+
+.price {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.price span {
+    font-size: 15px;
+    color: #64748b;
+}
+
+.description {
+    color: #64748b;
+    margin-bottom: 15px;
+}
+
+ul {
+    list-style: none;
+    line-height: 2.3;
+}
+
+ul li::before {
+    content: "✓ ";
+    color: #16a34a;
+    font-weight: bold;
+}
+
+.select-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.select-btn:active {
+    transform: scale(0.96);
+}
+
+/* Featured Pro Plan */
+.pro {
+    border: 2px solid #2563eb;
+    position: relative;
+    animation: glow 2s infinite alternate;
+}
+
+.popular {
+    background: #2563eb;
+    color: white;
+    padding: 7px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 5px rgba(37,99,235,0.2);
+    }
+    to {
+        box-shadow: 0 0 18px rgba(37,99,235,0.5);
+    }
+}
+
+/* Desktop View */
+@media (min-width: 850px) {
+    .pricing-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="component-container">
+
+<h1>Choose Your Plan</h1>
+
+<!-- Billing Toggle -->
+<div class="billing-toggle">
+    <button class="active" onclick="changeBilling('monthly')">
+        Monthly
+    </button>
+
+    <button onclick="changeBilling('annual')">
+        Annual
+    </button>
+</div>
+
+<!-- Pricing Cards -->
+<div class="pricing-container">
+
+    <!-- Starter Plan -->
+    <div class="pricing-card">
+
+        <div>
+            <h2>Starter</h2>
+            <p class="description">Perfect for beginners</p>
+
+            <div class="price">
+                Free
+            </div>
+
+            <ul>
+                <li>Basic Features</li>
+                <li>Limited Storage</li>
+                <li>Email Support</li>
+            </ul>
+        </div>
+
+        <button class="select-btn">Select</button>
+
+    </div>
+
+    <!-- Pro Plan -->
+    <div class="pricing-card pro">
+
+        <div>
+            <span class="popular">POPULAR</span>
+
+            <h2>Pro Plan</h2>
+            <p class="description">Best for professionals</p>
+
+            <div class="price" id="pro-price">
+                ₹799<span>/mo</span>
+            </div>
+
+            <ul>
+                <li>All Basic Features</li>
+                <li>Unlimited Storage</li>
+                <li>Priority Support</li>
+                <li>Advanced Tools</li>
+            </ul>
+        </div>
+
+        <button class="select-btn">Select</button>
+
+    </div>
+
+    <!-- Team Plan -->
+    <div class="pricing-card">
+
+        <div>
+            <h2>Team</h2>
+            <p class="description">Perfect for teams</p>
+
+            <div class="price" id="team-price">
+                ₹1,999<span>/mo</span>
+            </div>
+
+            <ul>
+                <li>All Pro Features</li>
+                <li>Team Collaboration</li>
+                <li>Multiple Users</li>
+                <li>24/7 Support</li>
+            </ul>
+        </div>
+
+        <button class="select-btn">Select</button>
+
+    </div>
+
+</div>
+</main>
+
+<script>
+function changeBilling(type) {
+
+    const buttons = document.querySelectorAll(
+        ".billing-toggle button"
+    );
+
+    buttons.forEach(button => {
+        button.classList.remove("active");
+    });
+
+    if (type === "monthly") {
+        buttons[0].classList.add("active");
+
+        document.getElementById("pro-price").innerHTML =
+            "₹799<span>/mo</span>";
+
+        document.getElementById("team-price").innerHTML =
+            "₹1,999<span>/mo</span>";
+
+    } else {
+        buttons[1].classList.add("active");
+
+        document.getElementById("pro-price").innerHTML =
+            "₹7,999<span>/yr</span>";
+
+        document.getElementById("team-price").innerHTML =
+            "₹19,999<span>/yr</span>";
+    }
+}
+</script>
+
+</body>
+</html>
